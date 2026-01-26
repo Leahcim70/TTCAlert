@@ -1,0 +1,43 @@
+name: Build release asset (subset) and attach to release
+
+on:
+  push:
+    tags:
+      - "v*"
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Optional: nur laufen, wenn Tag gepusht wurde (und nicht zusätzlich beim release-event)
+      - name: Get tag
+        id: tag
+        run: echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Create zip from selected paths
+        run: |
+          mkdir -p dist
+          # Beispiel: nur bestimmte Pfade aufnehmen (anpassen!)
+          git archive --format=zip \
+            --output "dist/TTCAlert.zip" \
+            "${{ steps.tag.outputs.tag }}" \
+            *.lua \
+            *.txt
+
+      - name: Create GitHub Release (only for tag push)
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          files: dist/*.zip
