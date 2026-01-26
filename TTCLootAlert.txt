@@ -1,0 +1,11 @@
+## Title: TTCLootAlert
+## APIVersion: 101048
+## Author: @Leahcim70
+## Version: 1.0.0
+## Description: Gibt TTC-Preis fuer gelootete Items im Chat aus, wenn SuggestedPrice >= 10g.
+## DependsOn: TamrielTradeCentre
+## SavedVariables: TTCLootAlertSavedVariables
+
+en.lua
+de.lua
+TTCLootAlert.lua
