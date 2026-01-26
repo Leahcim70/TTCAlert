@@ -3,7 +3,7 @@ name: Build release asset (subset) and attach to release
 on:
   push:
     tags:
-      - "v*"
+      - "*"
   release:
     types: [published]
 
