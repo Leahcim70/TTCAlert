@@ -29,6 +29,7 @@ jobs:
           mkdir -p dist
           # Beispiel: nur bestimmte Pfade aufnehmen (anpassen!)
           git archive --format=zip \
+            --prefix=TTCLootAlert/ \
             --output "dist/TTCAlert.zip" \
             "${{ steps.tag.outputs.tag }}" \
             *.lua \
