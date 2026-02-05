@@ -11,7 +11,7 @@ local DEFAULT_LOCALIZATION = {
     thresholdCurrent = "|cFFD700[TTC]|r Current threshold: %sg. Use /ttcalert <gold> to set.",
     invalidValue = "|cFFD700[TTC]|r Invalid value. Use /ttcalert <gold>.",
     thresholdSet = "|cFFD700[TTC]|r Threshold set to %sg.",
-    addonLoaded = "|cFFD700[TTC]|r %s by %s loaded (threshold: %sg).",
+    addonLoaded = "|cFFD700[TTC]|r %s loaded (threshold: %sg).",
 }
 
 local function LoadLocalization()
@@ -120,7 +120,7 @@ local function OnAddOnLoaded(event, addonName)
 
     local function OnPlayerActivated()
         EVENT_MANAGER:UnregisterForEvent(TTCLootAlert.name, EVENT_PLAYER_ACTIVATED)
-        Chat(string.format(L.addonLoaded, TTCLootAlert.name, TTCLootAlert.author, FormatGold(THRESHOLD_GOLD)))
+        Chat(string.format(L.addonLoaded, TTCLootAlert.name, FormatGold(THRESHOLD_GOLD)))
     end
 
     EVENT_MANAGER:RegisterForEvent(TTCLootAlert.name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)

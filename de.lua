@@ -4,5 +4,5 @@ TTCLootAlert_Localization.de = {
     thresholdCurrent = "|cFFD700[TTC]|r Schwelle aktuell: %sg. Nutze /ttcalert <Gold> zum Setzen.",
     invalidValue = "|cFFD700[TTC]|r Ungueltiger Wert. Nutze /ttcalert <Gold>.",
     thresholdSet = "|cFFD700[TTC]|r Schwelle gesetzt auf %sg.",
-    addonLoaded = "|cFFD700[TTC]|r %s von %s geladen (Schwelle: %sg).",
+    addonLoaded = "|cFFD700[TTC]|r %s geladen (Schwelle: %sg).",
 }
