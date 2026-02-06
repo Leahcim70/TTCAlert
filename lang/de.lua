@@ -1,0 +1,5 @@
+SafeAddString(TTCLootAlert_LOOT_MESSAGE, "|cFFD700[LP]|r %s: Preis %sg (x%d = %sg)", 2)
+SafeAddString(TTCLootAlert_THRESHOLD_CURRENT, "|cFFD700[LP]|r Schwelle aktuell: %sg. Nutze /ttcalert <Gold> zum Setzen.", 2)
+SafeAddString(TTCLootAlert_INVALID_VALUE, "|cFFD700[LP]|r Ungueltiger Wert. Nutze /ttcalert <Gold>.", 2)
+SafeAddString(TTCLootAlert_THRESHOLD_SET, "|cFFD700[LP]|r Schwelle gesetzt auf %sg.", 2)
+SafeAddString(TTCLootAlert_ADDON_LOADED, "|cFFD700[LP]|r %s geladen (Schwelle: %sg).", 2)

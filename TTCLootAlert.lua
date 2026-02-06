@@ -4,42 +4,6 @@ TTCLootAlert.author = "@Leahcim70"
 
 local DEFAULT_THRESHOLD_GOLD = 1000
 local THRESHOLD_GOLD = DEFAULT_THRESHOLD_GOLD
-local LANGUAGE_CODE = "en"
-
-local DEFAULT_LOCALIZATION = {
-    lootMessage = "|cFFD700[TTC]|r %s: Suggested %sg (x%d = %sg)",
-    thresholdCurrent = "|cFFD700[TTC]|r Current threshold: %sg. Use /ttcalert <gold> to set.",
-    invalidValue = "|cFFD700[TTC]|r Invalid value. Use /ttcalert <gold>.",
-    thresholdSet = "|cFFD700[TTC]|r Threshold set to %sg.",
-    addonLoaded = "|cFFD700[TTC]|r %s loaded (threshold: %sg).",
-}
-
-local function LoadLocalization()
-    local localization = TTCLootAlert_Localization or {}
-    local english = localization.en or {}
-    setmetatable(english, { __index = DEFAULT_LOCALIZATION })
-    local langCode = "en"
-
-    if GetCVar then
-        langCode = (GetCVar("Language.2") or "en"):lower()
-    end
-
-    if langCode ~= "en" then
-        local localized = localization[langCode]
-        if localized then
-            setmetatable(localized, { __index = english })
-            LANGUAGE_CODE = langCode
-            TTCLootAlert.langCode = langCode
-            return localized
-        end
-    end
-
-    LANGUAGE_CODE = langCode
-    TTCLootAlert.langCode = langCode
-    return english
-end
-
-local L = LoadLocalization()
 
 local function FormatGold(n)
     n = tonumber(n) or 0
@@ -55,44 +19,38 @@ local function Chat(msg)
     end
 end
 
-local function GetTTCSuggestedPrice(itemLink)
+local function GetLibPriceGold(itemLink)
     if not itemLink or itemLink == "" then return nil end
-    if not TamrielTradeCentrePrice or not TamrielTradeCentrePrice.GetPriceInfo then return nil end
+    if not LibPrice or not LibPrice.ItemLinkToPriceGold then return nil end
 
-    local info = TamrielTradeCentrePrice:GetPriceInfo(itemLink)
-    if not info then return nil end
-
-    -- TTC PriceInfo: SuggestedPrice = suggested price low (high = *1.25)
-    local suggested = info.SuggestedPrice
-    if not suggested then return nil end
-
-    return tonumber(suggested)
+    local gold = LibPrice.ItemLinkToPriceGold(itemLink)
+    return tonumber(gold)
 end
 
 local function OnLootReceived(eventCode, lootedBy, itemLink, quantity, itemSound, lootType, lootedBySelf, isStolen)
     if not lootedBySelf then return end
     if not itemLink or itemLink == "" then return end
 
-    local suggested = GetTTCSuggestedPrice(itemLink)
+    local suggested = GetLibPriceGold(itemLink)
     if not suggested or suggested < THRESHOLD_GOLD then return end
 
     quantity = tonumber(quantity) or 1
     local total = suggested * quantity
 
-    Chat(string.format(L.lootMessage, itemLink, FormatGold(suggested), quantity, FormatGold(total)))
+    Chat(string.format(GetString(TTCLootAlert_LOOT_MESSAGE), itemLink, FormatGold(suggested), quantity, FormatGold(total)))
 end
 
 local function RegisterSlashCommand()
     local function HandleSlashCommand(text)
         local trimmed = (text or ""):match("^%s*(.-)%s*$")
         if trimmed == "" then
-            Chat(string.format(L.thresholdCurrent, FormatGold(THRESHOLD_GOLD)))
+            Chat(string.format(GetString(TTCLootAlert_THRESHOLD_CURRENT), FormatGold(THRESHOLD_GOLD)))
             return
         end
 
         local newThreshold = tonumber(trimmed)
         if not newThreshold then
-            Chat(L.invalidValue)
+            Chat(GetString(TTCLootAlert_INVALID_VALUE))
             return
         end
 
@@ -100,7 +58,7 @@ local function RegisterSlashCommand()
 
         THRESHOLD_GOLD = newThreshold
         TTCLootAlert.savedVars.threshold = newThreshold
-        Chat(string.format(L.thresholdSet, FormatGold(newThreshold)))
+        Chat(string.format(GetString(TTCLootAlert_THRESHOLD_SET), FormatGold(newThreshold)))
     end
 
     SLASH_COMMANDS["/ttcalert"] = HandleSlashCommand
@@ -120,7 +78,7 @@ local function OnAddOnLoaded(event, addonName)
 
     local function OnPlayerActivated()
         EVENT_MANAGER:UnregisterForEvent(TTCLootAlert.name, EVENT_PLAYER_ACTIVATED)
-        Chat(string.format(L.addonLoaded, TTCLootAlert.name, FormatGold(THRESHOLD_GOLD)))
+        Chat(string.format(GetString(TTCLootAlert_ADDON_LOADED), TTCLootAlert.name, FormatGold(THRESHOLD_GOLD)))
     end
 
     EVENT_MANAGER:RegisterForEvent(TTCLootAlert.name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
