@@ -33,6 +33,7 @@ jobs:
             --output "dist/TTCAlert.zip" \
             "${{ steps.tag.outputs.tag }}" \
             *.lua \
+            lang/* \
             *.txt
 
       - name: Create GitHub Release (only for tag push)
