@@ -10,3 +10,4 @@
 lang/default.lua
 lang/de.lua
 TTCLootAlert.lua
+
