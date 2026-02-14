@@ -1,9 +1,10 @@
 ## Title: TTCLootAlert
 ## APIVersion: 101048
 ## Author: @Leahcim70
-## Version: 1.0.3
+## Version: 1.0.7
+## AddOnVersion: 10007
 ## Description: Alerts you, when you loot an expensive item
-## DependsOn: LibPrice LibItemLink
+## DependsOn: LibPrice>=70530 LibItemLink>=940
 ## SavedVariables: TTCLootAlertSavedVariables
 
 lang/default.lua

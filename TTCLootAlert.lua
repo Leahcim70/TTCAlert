@@ -1,4 +1,4 @@
-TTCLootAlert = TTCLootAlert or {}
+local TTCLootAlert = TTCLootAlert or {}
 TTCLootAlert.name = "TTCLootAlert"
 TTCLootAlert.author = "@Leahcim70"
 
